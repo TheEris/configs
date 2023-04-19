@@ -1,0 +1,84 @@
+substitutions:
+  name: "kamen"
+  friendly_name: "Kámen"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  name_add_mac_suffix: true
+  project:
+    name: thechamber.wonderland
+    version: "1.0.0"
+
+dashboard_import:
+  package_import_url: github://esphome/esphome-project-template/project-template-esp32.yaml@v6
+  import_full_config: true
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+api:
+ota:
+web_server:
+
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO0_IN
+  phy_addr: 1
+  power_pin: GPIO16
+
+sensor:
+  - platform: hx711
+    name: "váha"
+    dout_pin: 32
+    clk_pin: 17
+    gain: 128
+    update_interval: 250ms
+    
+output:
+  - platform: ledc
+    pin: 2
+    id: g2
+
+  - platform: ledc
+    pin: 14
+    id: g14
+
+  - platform: ledc
+    pin: 4
+    id: g4
+
+  - platform: ledc
+    pin: 33
+    id: g33
+
+light:    
+  - platform: rgb
+    name: "podsvícení"
+    red: g4
+    green: g14
+    blue: g33
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 35
+      inverted: true
+    name: "Vstup 35"
+
+  - platform: gpio
+    pin: 
+      number: 36
+      inverted: true
+    name: "Vstup 36"
+
+  - platform: gpio
+    pin: 
+      number: 39
+      inverted: true
+    name: "Vstup 39"
